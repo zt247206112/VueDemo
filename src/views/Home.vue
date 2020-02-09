@@ -15,6 +15,7 @@
 <script>
 import myFunctionButtom from '../components/function_buttom'
 import todoList from '../components/slot-scope/todoList'
+import { _nextTick } from '../components/nextTick'
 export default {
   name: 'home',
   components: {
@@ -47,6 +48,15 @@ export default {
         }
       ]
     }
+  },
+  created () {
+    // 测试nextTick
+    console.log(1)
+    _nextTick(() => {
+      console.log(2)
+    });
+  },
+  methods: {
   }
 }
 </script>

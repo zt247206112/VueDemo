@@ -9,7 +9,7 @@
 export default {
   functional: true,
   render: function(createElement, context) {
-    console.log('ztttt', context)
+    // console.log('ztttt', context)
     return createElement("button", context.data, context.children)
   }
 }
