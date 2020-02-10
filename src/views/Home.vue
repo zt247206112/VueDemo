@@ -46,7 +46,11 @@ export default {
           id: 3,
           isComplete: false
         }
-      ]
+      ],
+      obj: {
+        name: '赵腾',
+        age: 27
+      }
     }
   },
   created () {
@@ -55,8 +59,24 @@ export default {
     _nextTick(() => {
       console.log(2)
     });
+    this.init();
   },
   methods: {
+    init () {
+      this.proxy();
+    },
+    // 测试es6 proxy
+    proxy () {
+      const p = new Proxy(this.obj, {
+        get (target, key, value) {
+          return target[key]
+        },
+        set (target, key, value) {
+          return target[key]
+        }
+      })
+      console.log(p.name)
+    }
   }
 }
 </script>
