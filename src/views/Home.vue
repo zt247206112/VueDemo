@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- 函数式组件 -->
-    <my-Function-Buttom :class="className" id="btn1">button</my-Function-Buttom>
+    <my-Function-Buttom @click="incrementPlusOne" v-longpress="incrementPlusOne" :class="className" id="btn1">button</my-Function-Buttom>
     <!--slot插槽-->
     <todo-list :todos="todos">
       <template slot-scope="slotProps">
@@ -9,6 +9,8 @@
         <span>{{slotProps.todo.text}}</span>
       </template>
     </todo-list>
+    <!--自定义vue指令-->
+    <div>{{count}}</div>
   </div>
 </template>
 
@@ -50,6 +52,51 @@ export default {
       obj: {
         name: '赵腾',
         age: 27
+      },
+      count: 0
+    }
+  },
+  directives: {
+    longpress: {
+      bind: function (el, binding, vnode) {
+        let timer = null;
+        let start = function (e) {
+          // 如果是点击事件，不启动计时器，直接返回
+          if (e.type === 'click'){
+            return
+          }
+          if (timer == null){
+            // 创建定时器 ( 2s之后执行长按功能函数 )
+            timer = setInterval(function () {
+              //执行长按功能函数
+              binding.value()
+            }, 200)
+          }
+        }
+        let cancel = function () {
+          if (timer !== null){
+            clearTimeout(timer)
+            timer = null
+          }
+        }
+        // 添加事件监听器
+        el.addEventListener("mousedown", start);
+
+        // 取消计时器
+        el.addEventListener("click", cancel);
+        el.addEventListener("mouseout", cancel);
+      },
+      inserted: function () {
+        console.log('inserted')
+      },
+      update: function () {
+        console.log('update')
+      },
+      componentUpdated: function () {
+        console.log('componentUpdated')
+      },
+      unbind: function () {
+        console.log('unbind')
       }
     }
   },
@@ -76,6 +123,9 @@ export default {
         }
       })
       console.log(p.name)
+    },
+    incrementPlusOne () {
+      this.count++;
     }
   }
 }
