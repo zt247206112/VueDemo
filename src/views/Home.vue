@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- 函数式组件 -->
-    <my-Function-Buttom @click="incrementPlusOne" v-longpress="incrementPlusOne" :class="className" id="btn1">button</my-Function-Buttom>
+    <my-Function-Buttom v-longpress="incrementPlusOne" :class="className" id="btn1">button</my-Function-Buttom>
     <!--slot插槽-->
     <todo-list :todos="todos">
       <template slot-scope="slotProps">
@@ -61,22 +61,21 @@ export default {
       bind: function (el, binding, vnode) {
         let timer = null;
         let start = function (e) {
-          // 如果是点击事件，不启动计时器，直接返回
-          if (e.type === 'click'){
-            return
-          }
-          if (timer == null){
+          if (timer == null) {
             // 创建定时器 ( 2s之后执行长按功能函数 )
             timer = setInterval(function () {
               //执行长按功能函数
-              binding.value()
+              binding.value();
             }, 200)
           }
         }
-        let cancel = function () {
-          if (timer !== null){
-            clearTimeout(timer)
-            timer = null
+        let cancel = function (e) {
+          if (e.type === 'click') {
+            binding.value();
+          }
+          if (timer !== null) {
+            clearTimeout(timer);
+            timer = null;
           }
         }
         // 添加事件监听器
@@ -86,18 +85,10 @@ export default {
         el.addEventListener("click", cancel);
         el.addEventListener("mouseout", cancel);
       },
-      inserted: function () {
-        console.log('inserted')
-      },
-      update: function () {
-        console.log('update')
-      },
-      componentUpdated: function () {
-        console.log('componentUpdated')
-      },
-      unbind: function () {
-        console.log('unbind')
-      }
+      inserted: function () { },
+      update: function () { },
+      componentUpdated: function () { },
+      unbind: function () { }
     }
   },
   created () {
