@@ -18,6 +18,7 @@
 import myFunctionButtom from '../components/function_buttom'
 import todoList from '../components/slot-scope/todoList'
 import { _nextTick } from '../components/nextTick'
+import jsPractice from '../components/jsPractice'
 export default {
   name: 'home',
   components: {
@@ -93,9 +94,7 @@ export default {
   },
   created () {
     // 测试nextTick
-    console.log(1)
     _nextTick(() => {
-      console.log(2)
     });
     this.init();
   },
@@ -113,7 +112,7 @@ export default {
           return target[key]
         }
       })
-      console.log(p.name)
+      // console.log(p.name)
     },
     incrementPlusOne () {
       this.count++;
